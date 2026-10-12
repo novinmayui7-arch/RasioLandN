@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RasioLand - Belajar Rasio Kelas 6 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & DynaPuff -->
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@600;700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Success Animation -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .creative-title {
+            font-family: 'DynaPuff', cursive, sans-serif;
+        }
+        .bouncing {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .pulse-btn {
+            transition: all 0.2s ease;
+        }
+        .pulse-btn:hover {
+            transform: scale(1.05);
+        }
+        .pulse-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body id="body-theme" class="bg-gradient-to-br from-rose-50 via-orange-50 to-pink-100 text-slate-700 min-h-screen flex flex-col justify-between">
+
+    <!-- 1. HALAMAN OPENING / LOGIN -->
+    <div id="opening-modal" class="fixed inset-0 z-50 bg-rose-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-md w-full shadow-2xl text-center space-y-6 border-4 border-rose-300 relative">
+            <div class="w-20 h-20 bg-gradient-to-tr from-rose-500 to-orange-400 rounded-3xl mx-auto flex items-center justify-center text-white text-4xl shadow-lg bouncing">
+                <i class="fa-solid fa-shapes"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-extrabold text-rose-600 creative-title">RasioLand</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Petualangan Belajar Rasio Asik Kelas 6 SD</p>
+            </div>
+            <div class="space-y-3 text-left">
+                <label class="block text-sm font-bold text-slate-700 dark:text-slate-200">Masukkan Nama Kamu:</label>
+                <input type="text" id="input-nama-siswa" placeholder="Contoh: Budi Pratama" class="w-full px-4 py-3 rounded-xl border-2 border-rose-200 focus:outline-none focus:border-rose-500 font-semibold text-rose-900 dark:text-rose-100 bg-rose-50/50 dark:bg-slate-800">
+            </div>
+            <button type="button" id="btn-mulai-masuk" class="w-full bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-90 text-white font-bold py-3.5 rounded-xl shadow-lg transition text-lg cursor-pointer creative-title">
+                Mulai Masuk 🚀
+            </button>
+            <div class="pt-2 border-t dark:border-slate-800 text-xs text-slate-400 font-medium">
+                Dibuat dengan ❤️ oleh <span class="font-bold text-rose-600">NVMayui</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-md sticky top-0 z-40 border-b-4 border-rose-300">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-12 h-12 bg-gradient-to-tr from-rose-500 to-orange-400 rounded-2xl flex items-center justify-center text-white text-2xl shadow-inner">
+                    <i class="fa-solid fa-shapes"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-rose-600 creative-title tracking-wide">RasioLand</h1>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 font-semibold">Pembuat: <span class="text-rose-600 dark:text-rose-400 font-bold">NVMayui</span></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <nav class="hidden md:flex space-x-2 font-semibold">
+                    <button onclick="switchTab('home')" id="nav-home" class="px-4 py-2 rounded-xl bg-rose-500 text-white shadow transition"><i class="fa-solid fa-house mr-2"></i>Beranda</button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="px-4 py-2 rounded-xl hover:bg-rose-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition"><i class="fa-solid fa-book-open mr-2"></i>Materi & Soal</button>
+                    <button onclick="switchTab('simulasi')" id="nav-simulasi" class="px-4 py-2 rounded-xl hover:bg-rose-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition"><i class="fa-solid fa-sliders mr-2"></i>Lab Rasio</button>
+                    <button onclick="switchTab('kuis')" id="nav-kuis" class="px-4 py-2 rounded-xl hover:bg-rose-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition"><i class="fa-solid fa-star mr-2"></i>Kuis Bintang</button>
+                </nav>
+
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-slate-800 text-rose-600 dark:text-amber-400 flex items-center justify-center text-lg shadow transition cursor-pointer" title="Ganti Tema Terang/Gelap">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden text-2xl text-rose-600 dark:text-rose-400 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t dark:border-slate-800 px-4 py-3 space-y-2 shadow-lg">
+            <button onclick="switchTab('home'); toggleMobileMenu();" id="mob-nav-home" class="block w-full text-left px-3 py-2 rounded-lg bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 font-semibold">Beranda</button>
+            <button onclick="switchTab('materi'); toggleMobileMenu();" id="mob-nav-materi" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-800 font-semibold dark:text-slate-300">Materi & Soal</button>
+            <button onclick="switchTab('simulasi'); toggleMobileMenu();" id="mob-nav-simulasi" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-800 font-semibold dark:text-slate-300">Lab Rasio</button>
+            <button onclick="switchTab('kuis'); toggleMobileMenu();" id="mob-nav-kuis" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-800 font-semibold dark:text-slate-300">Kuis Bintang</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- TAB 1: HOME -->
+        <section id="tab-home" class="space-y-8">
+            <div class="bg-gradient-to-r from-rose-400 via-pink-400 to-orange-400 rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between">
+                <div class="space-y-4 max-w-lg z-10">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Kurikulum Merdeka Kelas 6</span>
+                    <h2 class="text-3xl md:text-5xl font-bold leading-tight creative-title" id="salam-user">Hai, Siswa! 👋</h2>
+                    <p class="text-rose-50 text-lg">Pahami perbandingan bagian, rasio senilai, rasio satuan, hingga rasio terhadap satuan waktu panen tanaman di RasioLand.</p>
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <button onclick="switchTab('materi')" class="bg-white text-rose-600 font-bold px-6 py-3 rounded-2xl shadow-lg pulse-btn flex items-center">
+                            <i class="fa-solid fa-rocket mr-2"></i> Mulai Belajar
+                        </button>
+                        <button onclick="switchTab('simulasi')" class="bg-rose-600/50 border-2 border-white text-white font-bold px-6 py-3 rounded-2xl shadow-lg pulse-btn flex items-center">
+                            <i class="fa-solid fa-flask mr-2"></i> Coba Laboratorium
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-8 md:mt-0 z-10 text-center">
+                    <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/35 shadow-2xl flex items-center justify-center space-x-4">
+                        <div class="text-6xl bouncing">⭐</div>
+                        <div class="text-3xl font-bold">:</div>
+                        <div class="text-6xl bouncing" style="animation-delay: 0.5s;">🚀</div>
+                    </div>
+                    <p class="text-xs mt-3 text-rose-100 font-medium">Bank 100 Soal Kuis + Pantun Lucu</p>
+                </div>
+            </div>
+
+            <!-- Quick Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="switchTab('materi')" class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-md border-b-4 border-amber-400 hover:shadow-xl transition cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/40 text-amber-500 rounded-2xl flex items-center justify-center text-2xl mb-4 font-bold">📚</div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">1. Materi & Contoh Soal</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Dilengkapi penjelasan FPB rinci, rasio satuan waktu panen, dan latihan soal cerita.</p>
+                    </div>
+                    <span class="text-amber-500 font-bold text-sm mt-4 inline-flex items-center">Pelajari <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </div>
+                <div onclick="switchTab('simulasi')" class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-md border-b-4 border-sky-400 hover:shadow-xl transition cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-sky-100 dark:bg-sky-900/40 text-sky-500 rounded-2xl flex items-center justify-center text-2xl mb-4 font-bold">🧪</div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">2. Laboratorium Rasio</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Simulasi interaktif hasil panen bibit bayam, kelereng, susu & jeruk, serta kalkulator satuan.</p>
+                    </div>
+                    <span class="text-sky-500 font-bold text-sm mt-4 inline-flex items-center">Mainkan <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </div>
+                <div onclick="switchTab('kuis')" class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-md border-b-4 border-rose-400 hover:shadow-xl transition cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-rose-100 dark:bg-rose-900/40 text-rose-500 rounded-2xl flex items-center justify-center text-2xl mb-4 font-bold">⭐</div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">3. Kuis Berhadiah Bintang</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Bank 100 Soal! Soal acak dan hadiah pantun lucu yang menyesuaikan nilai akhir!</p>
+                    </div>
+                    <span class="text-rose-500 font-bold text-sm mt-4 inline-flex items-center">Mulai Kuis <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MATERI & CONTOH SOAL CERITA -->
+        <section id="tab-materi" class="hidden space-y-8">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-rose-100 dark:border-slate-800">
+                <div class="border-b dark:border-slate-800 pb-4 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-rose-500 font-bold text-xs bg-rose-100 dark:bg-rose-900/40 px-3 py-1 rounded-full">Modul Pembelajaran</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 mt-1 creative-title">Materi & Contoh Soal Cerita</h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="setMateriSubTab('dasar')" id="btn-sub-dasar" class="px-3 py-2 rounded-xl bg-rose-500 text-white font-semibold text-xs transition">Konsep Dasar</button>
+                        <button onclick="setMateriSubTab('senilai')" id="btn-sub-senilai" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-xs transition">Rasio Senilai</button>
+                        <button onclick="setMateriSubTab('bagian')" id="btn-sub-bagian" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-xs transition">Bagian vs Keseluruhan</button>
+                        <button onclick="setMateriSubTab('satuan')" id="btn-sub-satuan" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-xs transition">Rasio Satuan</button>
+                        <button onclick="setMateriSubTab('waktu')" id="btn-sub-waktu" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-xs transition">Rasio Satuan Waktu</button>
+                    </div>
+                </div>
+
+                <!-- SUB-MATERI 1: DASAR -->
+                <div id="sub-materi-dasar" class="space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-apple-whole mr-2"></i>1. Penjelasan Mendalam: Konsep Dasar Rasio & FPB</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                            Rasio atau perbandingan adalah suatu cara matematika untuk membandingkan dua besaran atau lebih yang sejenis. Dalam penyederhanaan rasio, kita memerlukan konsep **FPB (Faktor Persekutuan Terbesar)**. Faktor suatu bilangan adalah angka-angka pembagi yang dapat membagi habis bilangan tersebut tanpa sisa. FPB dicari dengan melihat faktor yang sama dari dua bilangan, lalu memilih angka yang paling besar.
+                        </p>
+                        <div class="bg-rose-50 dark:bg-slate-800 p-5 rounded-2xl border-2 border-rose-200 dark:border-rose-900/50 space-y-3 mt-4">
+                            <h4 class="font-bold text-rose-800 dark:text-rose-300 flex items-center"><i class="fa-solid fa-file-pen mr-2"></i>Contoh Soal Cerita & Penjelasan Rinci FPB:</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">Di dalam keranjang terdapat 12 buah apel merah dan 8 buah apel hijau. Tuliskan rasio buah apel merah terhadap apel hijau dalam bentuk paling sederhana!</p>
+                            
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl space-y-3 text-xs md:text-sm border dark:border-slate-800">
+                                <p><strong>Diketahui:</strong> Jumlah apel merah adalah 12 buah, dan jumlah apel hijau adalah 8 buah.</p>
+                                <p><strong>Ditanyakan:</strong> Berapakah rasio apel merah banding apel hijau dalam bentuk paling sederhana?</p>
+                                <div class="bg-rose-50/50 dark:bg-slate-800 p-3 rounded-xl border border-rose-100 dark:border-slate-700 space-y-2">
+                                    <p class="font-bold text-rose-700 dark:text-rose-300"><i class="fa-solid fa-circle-question mr-1"></i> Cara Menemukan FPB dari 12 dan 8:</p>
+                                    <p>• <strong>Faktor dari 12</strong> (angka yang habis membagi 12): <strong>1, 2, 3, 4, 6, 12</strong></p>
+                                    <p>• <strong>Faktor dari 8</strong> (angka yang habis membagi 8): <strong>1, 2, 4, 8</strong></p>
+                                    <p>• <strong>Faktor Persekutuan (Angka yang Sama di Keduanya):</strong> <strong><span class="text-rose-600 font-bold">1, 2, 4</span></strong></p>
+                                    <p>• <strong>FPB (Faktor Persekutuan Terbesar):</strong> Dari angka yang disekutukan tersebut (<span class="text-rose-600 font-bold">1, 2, 4</span>), nilai yang paling besar adalah angka <strong class="text-rose-600 text-base">4</strong>.</p>
+                                </div>
+                                <p><strong>Penyelesaian Sederhana:</strong><br>- Tuliskan perbandingan awal: 12 : 8.<br>- Bagi kedua sisi dengan FPB (angka 4): (12 ÷ 4) : (8 ÷ 4) = <strong>3 : 2</strong>.</p>
+                                <p class="text-rose-600 dark:text-rose-400 font-bold pt-1">Penjelasan Sederhana: Karena FPB dari 12 dan 8 adalah 4, membagi kedua sisi dengan 4 menghasilkan rasio paling sederhana yaitu 3 banding 2!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-MATERI 2: RASIO SENILAI -->
+                <div id="sub-materi-senilai" class="hidden space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-equals mr-2"></i>2. Penjelasan Mendalam: Rasio Senilai</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                            Rasio senilai adalah dua atau lebih perbandingan yang memiliki nilai sama meskipun angka-angka penyusunnya terlihat berbeda. Konsep ini mirip dengan pecahan senilai (misalnya 1/2 sama nilainya dengan 2/4). Untuk membuat atau mencari rasio senilai, kita cukup mengalikan atau membagi kedua bilangan dalam rasio dengan bilangan bulat positif yang sama. Dalam penerapannya, rasio senilai sangat berguna untuk memperkirakan kebutuhan bahan resep makanan, menghitung skala peta, atau memperbanyak produksi barang dengan proporsi yang tetap akurat.
+                        </p>
+                        <div class="bg-amber-50 dark:bg-slate-800 p-5 rounded-2xl border-2 border-amber-200 dark:border-amber-900/50 space-y-3 mt-4">
+                            <h4 class="font-bold text-amber-800 dark:text-amber-300 flex items-center"><i class="fa-solid fa-file-pen mr-2"></i>Contoh Soal Cerita & Pembahasan:</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">Untuk membuat 2 gelas jus mangga, diperlukan 3 sendok gula pasir. Jika Ibu ingin membuat 6 gelas jus mangga dengan rasa yang sama persis, berapa sendok gula yang dibutuhkan?</p>
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl space-y-2 text-xs md:text-sm border dark:border-slate-800">
+                                <p><strong>Diketahui:</strong> Rasio resep awal adalah 2 gelas susu banding 3 sendok gula. Target jumlah gelas yang ingin dibuat adalah 6 gelas.</p>
+                                <p><strong>Ditanyakan:</strong> Berapa jumlah sendok gula yang diperlukan untuk 6 gelas?</p>
+                                <p><strong>Penyelesaian:</strong><br>- Tentukan faktor pengali gelas: 6 dibagi 2 = 3 (artinya jumlah gelas bertambah 3 kali lipat).<br>- Kalikan juga jumlah takaran gula dengan angka 3: 3 sendok dikali 3 = 9 sendok gula.</p>
+                                <p class="text-amber-600 dark:text-amber-400 font-bold pt-1">Penjelasan Sederhana: Karena jumlah gelas jusnya dibuat 3 kali lebih banyak, maka takaran gulanya juga wajib dikalikan 3 kali lipat agar rasa manisnya pas dan tidak berubah!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-MATERI 3: BAGIAN VS KESELURUHAN -->
+                <div id="sub-materi-bagian" class="hidden space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-pie-chart mr-2"></i>3. Penjelasan Mendalam: Rasio Bagian vs Bagian & Keseluruhan</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                            Dalam materi perbandingan matematika kelas 6, terdapat dua cara pandang utama saat kita membandingkan kelompok benda:<br>
+                            • <strong>Poin A (Bagian terhadap Bagian):</strong> Membandingkan dua kelompok atau subjek yang terpisah dan berdiri sendiri secara langsung (contoh: membandingkan jumlah kucing dengan anjing, atau pensil merah dengan pensil biru).<br>
+                            • <strong>Poin B (Bagian terhadap Keseluruhan):</strong> Membandingkan suatu kelompok tertentu terhadap jumlah total seluruh gabungan objek yang ada menjadi satu kesatuan (contoh: membandingkan jumlah pensil merah terhadap total seluruh pensil di dalam kotak).
+                        </p>
+                        <div class="bg-sky-50 dark:bg-slate-800 p-5 rounded-2xl border-2 border-sky-200 dark:border-sky-900/50 space-y-3 mt-4">
+                            <h4 class="font-bold text-sky-800 dark:text-sky-300 flex items-center"><i class="fa-solid fa-file-pen mr-2"></i>Contoh Soal Cerita (Poin A & Poin B):</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">Di dalam sebuah kotak pensil terdapat 12 pensil warna merah dan 8 pensil warna biru.<br><strong>A.</strong> Berapakah rasio pensil merah terhadap pensil biru?<br><strong>B.</strong> Berapakah rasio pensil merah terhadap KESELURUHAN pensil di dalam kotak?</p>
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl space-y-3 text-xs md:text-sm border dark:border-slate-800">
+                                <p><strong>Diketahui:</strong> Pensil merah = 12 buah, Pensil biru = 8 buah.<br>Total keseluruhan pensil = 12 + 8 = 20 buah.</p>
+                                <div class="border-t dark:border-slate-800 pt-2 space-y-1">
+                                    <p class="font-bold text-sky-600 dark:text-sky-400">Penyelesaian Poin A (Bagian terhadap Bagian):</p>
+                                    <p>- Bandingkan pensil merah langsung dengan pensil biru: 12 : 8.<br>- Sederhanakan dengan membagi angka 4: (12 dibagi 4) : (8 dibagi 4) = <strong>3 : 2</strong>.</p>
+                                </div>
+                                <div class="border-t dark:border-slate-800 pt-2 space-y-1">
+                                    <p class="font-bold text-sky-600 dark:text-sky-400">Penyelesaian Poin B (Bagian terhadap Keseluruhan):</p>
+                                    <p>- Bandingkan pensil merah dengan total keseluruhan pensil: 12 : 20.<br>- Sederhanakan dengan membagi angka 4: (12 dibagi 4) : (20 dibagi 4) = <strong>3 : 5</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-MATERI 4: RASIO SATUAN -->
+                <div id="sub-materi-satuan" class="hidden space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-gauge-high mr-2"></i>4. Penjelasan Mendalam: Rasio Satuan (Unit Rate)</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                            Rasio satuan atau unit rate adalah bentuk perbandingan khusus di mana nilai pembanding keduanya bernilai tepat **1**. Konsep ini sangat sering digunakan dalam kehidupan sehari-hari, misalnya saat kita ingin mengetahui harga 1 buah buku, harga per 1 kilogram buah di pasar, atau jarak yang ditempuh kendaraan dalam waktu 1 jam perjalanan. Cara menemukannya sangat mudah, yaitu dengan membagi total nilai keseluruhan dengan jumlah satuan pembandingnya sehingga kita mendapatkan nilai tunggal untuk satu satuan ukuran tersebut.
+                        </p>
+                        <div class="bg-emerald-50 dark:bg-slate-800 p-5 rounded-2xl border-2 border-emerald-200 dark:border-emerald-900/50 space-y-3 mt-4">
+                            <h4 class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center"><i class="fa-solid fa-file-pen mr-2"></i>Contoh Soal Cerita & Pembahasan:</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">Ibu membeli 4 kg buah jeruk di pasar dengan total harga Rp 60.000. Berapakah harga untuk 1 kg buah jeruk tersebut?</p>
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl space-y-2 text-xs md:text-sm border dark:border-slate-800">
+                                <p><strong>Diketahui:</strong> Berat jeruk = 4 kg, Total harga keseluruhan = Rp 60.000.</p>
+                                <p><strong>Ditanyakan:</strong> Harga untuk 1 kg jeruk (rasio satuan).</p>
+                                <p><strong>Penyelesaian:</strong><br>- Bagi total harga dengan jumlah berat kilogram: Rp 60.000 dibagi 4 = Rp 15.000 per kg.</p>
+                                <p class="text-emerald-600 dark:text-emerald-400 font-bold pt-1">Penjelasan Sederhana: Untuk mencari harga satuan, kita cukup membagikan jumlah uang total dengan berat barangnya agar ketemu harga untuk 1 kilogram saja!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-MATERI 5: RASIO TERHADAP SATUAN WAKTU -->
+                <div id="sub-materi-waktu" class="hidden space-y-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-seedling mr-2"></i>5. Penjelasan Mendalam: Rasio terhadap Satuan Waktu</h3>
+                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                            Rasio terhadap satuan waktu adalah perbandingan antara jumlah hasil produksi atau jumlah pencapaian tertentu terhadap satu satuan waktu baku (seperti per 1 minggu atau per 1 bulan). Dalam dunia pertanian, konsep ini sangat penting untuk menghitung jadwal masa panen tanaman. Sebagai contoh, bibit bayam membutuhkan siklus masa panen selama 1 minggu atau 1 bulan. Dengan menggunakan rasio terhadap satuan waktu, kita dapat mengetahui berapa banyak hasil panen yang diperoleh dalam setiap satuan minggu atau bulan secara akurat.
+                        </p>
+                        <div class="bg-emerald-50 dark:bg-slate-800 p-5 rounded-2xl border-2 border-emerald-200 dark:border-emerald-900/50 space-y-3 mt-4">
+                            <h4 class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center"><i class="fa-solid fa-file-pen mr-2"></i>Contoh Soal Cerita & Pembahasan:</h4>
+                            <p class="text-sm text-slate-700 dark:text-slate-200">Pak Tani menanam bibit bayam di kebun dan mendapati bahwa tanaman bayam tersebut menghasilkan total 20 kg hasil panen dalam waktu 4 minggu (1 bulan). Berapakah rasio hasil panen bayam terhadap satuan waktu per 1 minggu?</p>
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl space-y-2 text-xs md:text-sm border dark:border-slate-800">
+                                <p><strong>Diketahui:</strong> Total hasil panen bayam = 20 kg, Waktu keseluruhan = 4 minggu (1 bulan).</p>
+                                <p><strong>Ditanyakan:</strong> Rasio hasil panen terhadap satuan waktu (kg per 1 minggu).</p>
+                                <p><strong>Penyelesaian:</strong><br>- Bandingkan total hasil panen dengan jumlah minggu: 20 kg : 4 minggu.<br>- Bagikan kedua sisi untuk mencari nilai per 1 minggu: 20 dibagi 4 = 5 kg.<br>- Hasil rasio terhadap satuan waktu adalah <strong>5 kg : 1 minggu</strong>.</p>
+                                <p class="text-emerald-600 dark:text-emerald-400 font-bold pt-1">Penjelasan Sederhana: Karena dalam 4 minggu dihasilkan 20 kg bayam, maka jika dirata-rata ke dalam satuan waktu 1 minggu, kebun tersebut menghasilkan 5 kg bayam setiap minggunya!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 3: LABORATORIUM RASIO -->
+        <section id="tab-simulasi" class="hidden space-y-8">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-rose-100 dark:border-slate-800 space-y-8">
+                <div class="border-b dark:border-slate-800 pb-4">
+                    <span class="text-sky-500 font-bold text-xs bg-sky-100 dark:bg-sky-900/40 px-3 py-1 rounded-full">Praktik Langsung</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 mt-1 creative-title">Laboratorium Rasio Interaktif</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Geser slider untuk simulasi rasio terhadap satuan waktu panen bayam, kelereng, resep susu, dan rasio senilai!</p>
+                </div>
+
+                <!-- SIMULASI: RASIO TERHADAP SATUAN WAKTU (PANEN BAYAM PER MINGGU) -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 dark:bg-slate-800 p-6 rounded-3xl border border-emerald-200 dark:border-emerald-900/40 shadow-sm space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h3 class="font-bold text-emerald-800 dark:text-emerald-300 text-lg"><i class="fa-solid fa-seedling mr-2"></i>Lab Rasio terhadap Satuan Waktu (Panen Bayam)</h3>
+                        <span class="bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 text-xs font-bold px-3 py-1 rounded-lg">Panen per Minggu</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Geser slider untuk mengatur total hasil panen bayam dan jumlah minggu masa panennya!</p>
+
+                    <div class="space-y-4 bg-white/70 dark:bg-slate-900/70 p-4 rounded-2xl border border-emerald-100 dark:border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Total Hasil Panen Bayam (<span id="val-panen-bayam" class="text-emerald-600">20</span> Kg):</span>
+                            </div>
+                            <input type="range" min="4" max="60" step="4" value="20" id="slider-panen-bayam" oninput="updateLabRasioWaktu()" class="w-full accent-emerald-500 cursor-pointer">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Jumlah Minggu Masa Panen (<span id="val-minggu-panen" class="text-teal-600">4</span> Minggu):</span>
+                            </div>
+                            <input type="range" min="1" max="10" value="4" id="slider-minggu-panen" oninput="updateLabRasioWaktu()" class="w-full accent-teal-500 cursor-pointer">
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-800 text-center space-y-3 shadow-inner">
+                        <div class="text-3xl bouncing">🌱 ➡️ 🥬</div>
+                        <div class="text-lg font-bold text-slate-700 dark:text-slate-200">
+                            Rasio terhadap Satuan Waktu: <span id="hasil-rasio-waktu" class="text-emerald-600 dark:text-emerald-400 text-2xl font-extrabold">5 kg / minggu</span>
+                        </div>
+                        <p id="teks-penjelasan-waktu-lab" class="text-xs text-slate-500 dark:text-slate-400">
+                            Bibit bayam menghasilkan total 20 kg dalam 4 minggu, sehingga rasio terhadap satuan waktunya adalah 5 kg setiap 1 minggu.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SIMULASI: BAGIAN VS BAGIAN & BAGIAN VS KESELURUHAN (KELERENG) -->
+                <div class="bg-gradient-to-br from-indigo-50 to-sky-50 dark:bg-slate-800 p-6 rounded-3xl border border-indigo-200 dark:border-indigo-900/40 shadow-sm space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h3 class="font-bold text-indigo-800 dark:text-indigo-300 text-lg"><i class="fa-solid fa-arrows-split-up-and-left mr-2"></i>Lab Bagian ke Bagian & Bagian ke Total</h3>
+                        <span class="bg-indigo-200 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-xs font-bold px-3 py-1 rounded-lg">Kelereng Interaktif</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Geser slider jumlah kelereng merah dan biru untuk melihat perbandingan Poin A dan Poin B secara otomatis!</p>
+                    <div class="space-y-4 bg-white/70 dark:bg-slate-900/70 p-4 rounded-2xl border border-indigo-100 dark:border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Kelereng Merah (<span id="val-merah" class="text-red-500">3</span> Butir):</span>
+                            </div>
+                            <input type="range" min="1" max="15" value="3" id="slider-merah" oninput="updateLabBagianTotal()" class="w-full accent-red-500 cursor-pointer">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Kelereng Biru (<span id="val-biru" class="text-blue-500">4</span> Butir):</span>
+                            </div>
+                            <input type="range" min="1" max="15" value="4" id="slider-biru" oninput="updateLabBagianTotal()" class="w-full accent-blue-500 cursor-pointer">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border dark:border-slate-800 text-center space-y-2 shadow-inner">
+                            <p class="text-xs text-slate-400 font-bold uppercase">Poin A: Bagian vs Bagian</p>
+                            <div id="hasil-bagian-bagian" class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">3 : 4</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Merah berbanding Biru secara langsung.</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border dark:border-slate-800 text-center space-y-2 shadow-inner">
+                            <p class="text-xs text-slate-400 font-bold uppercase">Poin B: Bagian vs Keseluruhan</p>
+                            <div id="hasil-bagian-total" class="text-2xl font-extrabold text-sky-600 dark:text-sky-400">3 : 7</div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Merah berbanding Total Keseluruhan (<span id="val-total-kelereng">7</span>).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULASI: SUSU & JERUK -->
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 dark:bg-slate-800 p-6 rounded-3xl border border-pink-200 dark:border-pink-900/40 shadow-sm space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h3 class="font-bold text-rose-800 dark:text-rose-300 text-lg"><i class="fa-solid fa-glass-water mr-2"></i>Simulasi Rasio Susu & Sirup Jeruk</h3>
+                        <span class="bg-rose-200 dark:bg-rose-900 text-rose-800 dark:text-rose-200 text-xs font-bold px-3 py-1 rounded-lg">Rasio Campuran</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Geser slider untuk mencampur gelas susu cair dan tetesan sirup jeruk!</p>
+                    <div class="space-y-4 bg-white/70 dark:bg-slate-900/70 p-4 rounded-2xl border border-rose-100 dark:border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Gelas Susu (<span id="val-susu" class="text-rose-600">2</span> Gelas):</span>
+                            </div>
+                            <input type="range" min="1" max="10" value="2" id="slider-susu" oninput="updateSusuJeruk()" class="w-full accent-rose-500 cursor-pointer">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-slate-700 dark:text-slate-300">Tetes Sirup Jeruk (<span id="val-jeruk" class="text-orange-600">3</span> Tetes):</span>
+                            </div>
+                            <input type="range" min="1" max="15" value="3" id="slider-jeruk" oninput="updateSusuJeruk()" class="w-full accent-orange-500 cursor-pointer">
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-800 text-center space-y-3 shadow-inner">
+                        <div id="visual-susu-jeruk" class="flex justify-center items-center space-x-2 py-2 text-3xl">🥛🥛 vs 🍊🍊🍊</div>
+                        <div class="text-lg font-bold text-slate-700 dark:text-slate-200">
+                            Rasio Campuran: <span id="teks-rasio-susu-jeruk" class="text-rose-600 dark:text-rose-400 text-2xl font-extrabold">2 : 3</span>
+                        </div>
+                        <p id="teks-penjelasan-susu-jeruk" class="text-xs text-slate-500 dark:text-slate-400">Setiap 2 gelas susu membutuhkan 3 tetes sirup jeruk agar rasanya pas.</p>
+                    </div>
+                </div>
+
+                <!-- SIMULASI: RASIO SENILAI -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:bg-slate-800 p-6 rounded-3xl border border-amber-200 dark:border-amber-900/40 shadow-sm space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h3 class="font-bold text-amber-800 dark:text-amber-300 text-lg"><i class="fa-solid fa-calculator mr-2"></i>Lab Rasio Senilai Otomatis</h3>
+                        <div class="flex items-center space-x-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-amber-300 dark:border-slate-800">
+                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Rasio Dasar:</span>
+                            <input type="number" id="base-a" value="2" min="1" max="10" oninput="updateLabSenilai()" class="w-12 text-center font-bold border rounded bg-amber-50 dark:bg-slate-800 dark:text-white">
+                            <span class="font-bold">:</span>
+                            <input type="number" id="base-b" value="3" min="1" max="10" oninput="updateLabSenilai()" class="w-12 text-center font-bold border rounded bg-amber-50 dark:bg-slate-800 dark:text-white">
+                        </div>
+                    </div>
+                    <div class="space-y-2 bg-white/60 dark:bg-slate-900/60 p-4 rounded-2xl border border-amber-100 dark:border-slate-800">
+                        <div class="flex justify-between text-sm font-bold">
+                            <span class="text-slate-700 dark:text-slate-300">Faktor Pengali:</span>
+                            <span id="val-pengali" class="text-amber-600 text-lg">1</span>
+                        </div>
+                        <input type="range" min="1" max="5" value="1" id="slider-pengali" oninput="updateLabSenilai()" class="w-full accent-amber-500 cursor-pointer">
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-800 text-center space-y-4 shadow-inner">
+                        <div id="visual-senilai" class="text-3xl font-bold text-amber-800 dark:text-amber-300 tracking-wide">2 : 3</div>
+                        <div class="text-sm text-slate-600 dark:text-slate-300 bg-amber-50 dark:bg-slate-800 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50 text-left space-y-1">
+                            <p class="font-bold text-amber-900 dark:text-amber-200 mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Penjelasan Rasio Senilai:</p>
+                            <p id="teks-penjelasan-senilai">Rasio awal adalah 2 : 3. Ketika dikali faktor 1, hasilnya tetap 2 : 3.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULASI: RASIO SATUAN -->
+                <div class="bg-gradient-to-br from-sky-50 to-indigo-50 dark:bg-slate-800 p-6 rounded-3xl border border-sky-200 dark:border-sky-900/40 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-sky-800 dark:text-sky-300 text-lg"><i class="fa-solid fa-gauge-high mr-2"></i>Kalkulator Rasio Satuan (Unit Rate)</h3>
+                        <span class="bg-sky-200 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-xs font-bold px-2 py-1 rounded-lg">Satuan</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Masukkan jumlah total dan satuan barang untuk melihat cara menghitung rasio satuan!</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Jumlah Satuan (Misal: Kg / Jam):</label>
+                            <input type="number" id="input-satuan" value="4" min="1" max="100" oninput="hitungRasioSatuan()" class="w-full px-4 py-2 rounded-xl border border-sky-300 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white dark:bg-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Total Nilai / Harga (Rupiah):</label>
+                            <input type="number" id="input-total" value="80000" min="1000" step="5000" oninput="hitungRasioSatuan()" class="w-full px-4 py-2 rounded-xl border border-sky-300 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 bg-white dark:bg-slate-900 dark:text-white">
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-800 text-center space-y-4 shadow-inner">
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase">Hasil Rasio Satuan (Per 1 Satuan):</p>
+                            <div id="hasil-unit-rate" class="text-3xl font-bold text-sky-600 dark:text-sky-400 mt-1">Rp 20.000</div>
+                        </div>
+                        <div class="text-sm text-slate-600 dark:text-slate-300 bg-sky-50 dark:bg-slate-800 p-4 rounded-xl border border-sky-200 dark:border-sky-900/50 text-left space-y-1">
+                            <p class="font-bold text-sky-900 dark:text-sky-200 mb-1"><i class="fa-solid fa-lightbulb mr-1"></i> Cara Menemukan Rasio Satuan:</p>
+                            <p id="teks-penjelasan-satuan">Untuk mencari nilai per 1 satuan, kita membagi Total Nilai dengan Jumlah Satuan.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 4: KUIS BINTANG -->
+        <section id="tab-kuis" class="hidden space-y-8">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-rose-100 dark:border-slate-800 max-w-2xl mx-auto">
+                <div class="flex justify-between items-center border-b dark:border-slate-800 pb-4 mb-6">
+                    <div>
+                        <span class="text-rose-500 font-bold text-xs bg-rose-100 dark:bg-rose-900/40 px-3 py-1 rounded-full">Tantangan Asik (Bank 100 Soal Acak)</span>
+                        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-1 creative-title">Kuis Bintang Rasio</h2>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-amber-100 dark:bg-amber-900/40 px-4 py-2 rounded-2xl">
+                        <i class="fa-solid fa-star text-amber-500 text-xl"></i>
+                        <span id="skor-bintang" class="font-bold text-amber-700 dark:text-amber-400 text-lg">0</span>
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="space-y-6">
+                    <div class="flex justify-between text-sm font-semibold text-slate-400">
+                        <span id="quiz-progress">Pertanyaan 1 dari 5</span>
+                        <span id="quiz-category" class="text-rose-600 dark:text-rose-400 font-bold">Konsep Dasar</span>
+                    </div>
+
+                    <div class="bg-rose-50/60 dark:bg-slate-800 p-6 rounded-3xl border border-rose-200 dark:border-rose-900/40">
+                        <h3 id="quiz-question" class="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 leading-snug">
+                            Memuat soal...
+                        </h3>
+                    </div>
+
+                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+                    <!-- Kotak Pembahasan Interaktif Otomatis -->
+                    <div id="quiz-feedback" class="hidden p-5 rounded-2xl border-2 space-y-2"></div>
+
+                    <button id="btn-next-quiz" onclick="lanjutPertanyaan()" class="hidden w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-2xl shadow-lg transition">
+                        Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- FINISH KUIS: LAPORAN NILAI + PANTUN LUCU MENYESUAIKAN SKOR -->
+                <div id="quiz-finished" class="hidden text-center space-y-6 py-6">
+                    <div class="text-6xl bouncing">🎉</div>
+                    <h3 class="text-3xl font-bold text-slate-800 dark:text-slate-100 creative-title">Laporan Hasil Kuis</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm">Selamat! Kamu telah menyelesaikan tantangan kuis di RasioLand.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                        <div class="bg-rose-100 dark:bg-rose-900/40 p-5 rounded-3xl border-2 border-rose-300 dark:border-rose-700">
+                            <p class="text-xs font-semibold text-rose-800 dark:text-rose-300 uppercase tracking-wider">Nilai Kamu (Skor)</p>
+                            <div id="final-nilai" class="text-4xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">100</div>
+                        </div>
+                        <div class="bg-amber-100 dark:bg-amber-900/40 p-5 rounded-3xl border-2 border-amber-300 dark:border-amber-700">
+                            <p class="text-xs font-semibold text-amber-800 dark:text-amber-300 uppercase tracking-wider">Total Bintang</p>
+                            <div id="final-score" class="text-4xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">⭐ 100</div>
+                        </div>
+                    </div>
+
+                    <!-- KOTAK PANTUN LUCU ACAK SESUAI SKOR -->
+                    <div class="bg-gradient-to-r from-orange-100 via-pink-100 to-rose-100 dark:bg-slate-800 p-6 rounded-3xl border-2 border-orange-300 dark:border-slate-700 text-left space-y-3 shadow-md max-w-lg mx-auto">
+                        <div class="flex items-center space-x-2 text-rose-700 dark:text-rose-300 font-bold text-base border-b pb-2 border-rose-200 dark:border-slate-700">
+                            <i class="fa-solid fa-face-laugh-beam text-amber-500 text-xl"></i>
+                            <span>Pantun Hadiah Spesial Buat Kamu!</span>
+                        </div>
+                        <div id="box-pantun-lucu" class="text-slate-700 dark:text-slate-200 font-medium italic text-sm md:text-base leading-relaxed pl-2 border-l-4 border-rose-500">
+                            Memuat pantun...
+                        </div>
+                    </div>
+
+                    <div>
+                        <button onclick="mulaiKuisBaru()" class="bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-90 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition text-base creative-title">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Mainkan Kuis Lagi (Pantun & Soal Lain)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/90 dark:bg-slate-900/90 border-t dark:border-slate-800 mt-12 py-6 text-center text-slate-400 text-sm">
+        <p>RasioLand • Dibuat oleh <strong>NVMayui</strong> • Media Belajar Interaktif Matematika Kelas 6 SD 🍓🍏</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        function toggleTheme() {
+            const body = document.getElementById('body-theme');
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                body.className = "bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between dark";
+                icon.className = "fa-solid fa-sun";
+            } else {
+                body.className = "bg-gradient-to-br from-rose-50 via-orange-50 to-pink-100 text-slate-700 min-h-screen flex flex-col justify-between";
+                icon.className = "fa-solid fa-moon";
+            }
+        }
+
+        function prosesMasuk() {
+            const inputNama = document.getElementById('input-nama-siswa');
+            const nama = inputNama.value.trim();
+            if (nama === "") {
+                alert("Mohon masukkan nama kamu terlebih dahulu ya! 😊");
+                inputNama.focus();
+                return;
+            }
+            document.getElementById('salam-user').innerText = `Hai, ${nama}! 👋`;
+            document.getElementById('opening-modal').classList.add('hidden');
+        }
+
+        document.getElementById('btn-mulai-masuk').addEventListener('click', prosesMasuk);
+        document.getElementById('input-nama-siswa').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                prosesMasuk();
+            }
+        });
+
+        function switchTab(tabId) {
+            const tabs = ['home', 'materi', 'simulasi', 'kuis'];
+            tabs.forEach(t => {
+                const section = document.getElementById('tab-' + t);
+                if (section) section.classList.add('hidden');
+
+                const navBtn = document.getElementById('nav-' + t);
+                if (navBtn) {
+                    navBtn.className = "px-4 py-2 rounded-xl hover:bg-rose-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition font-semibold";
+                }
+
+                const mobNavBtn = document.getElementById('mob-nav-' + t);
+                if (mobNavBtn) {
+                    mobNavBtn.className = "block w-full text-left px-3 py-2 rounded-lg hover:bg-rose-50 dark:hover:bg-slate-800 font-semibold text-slate-600 dark:text-slate-300";
+                }
+            });
+
+            const activeSection = document.getElementById('tab-' + tabId);
+            if (activeSection) activeSection.classList.remove('hidden');
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = "px-4 py-2 rounded-xl bg-rose-500 text-white shadow transition font-semibold";
+            }
+
+            const activeMobBtn = document.getElementById('mob-nav-' + tabId);
+            if (activeMobBtn) {
+                activeMobBtn.className = "block w-full text-left px-3 py-2 rounded-lg bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300 font-semibold";
+            }
+
+            if (tabId === 'kuis') {
+                mulaiKuisBaru();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function setMateriSubTab(sub) {
+            const subs = ['dasar', 'senilai', 'bagian', 'satuan', 'waktu'];
+            subs.forEach(s => {
+                const subEl = document.getElementById('sub-materi-' + s);
+                const btnEl = document.getElementById('btn-sub-' + s);
+                if (subEl) subEl.classList.add('hidden');
+                if (btnEl) btnEl.className = "px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-xs transition";
+            });
+
+            const activeSubEl = document.getElementById('sub-materi-' + sub);
+            const activeBtnEl = document.getElementById('btn-sub-' + sub);
+            if (activeSubEl) activeSubEl.classList.remove('hidden');
+            if (activeBtnEl) activeBtnEl.className = "px-3 py-2 rounded-xl bg-rose-500 text-white font-semibold text-xs transition";
+        }
+
+        function updateLabRasioWaktu() {
+            let totalPanen = parseInt(document.getElementById('slider-panen-bayam').value);
+            let jumlahMinggu = parseInt(document.getElementById('slider-minggu-panen').value);
+
+            document.getElementById('val-panen-bayam').innerText = totalPanen;
+            document.getElementById('val-minggu-panen').innerText = jumlahMinggu;
+
+            let rasioPerMinggu = (totalPanen / jumlahMinggu).toFixed(1);
+            if (rasioPerMinggu.endsWith('.0')) {
+                rasioPerMinggu = parseInt(rasioPerMinggu);
+            }
+
+            document.getElementById('hasil-rasio-waktu').innerText = `${rasioPerMinggu} kg / minggu`;
+            document.getElementById('teks-penjelasan-waktu-lab').innerText = 
+                `Bibit bayam menghasilkan total ${totalPanen} kg hasil panen dalam kurun waktu ${jumlahMinggu} minggu, sehingga rasio terhadap satuan waktunya adalah ${rasioPerMinggu} kg setiap 1 minggu.`;
+        }
+
+        function updateLabBagianTotal() {
+            let merah = parseInt(document.getElementById('slider-merah').value);
+            let biru = parseInt(document.getElementById('slider-biru').value);
+            let total = merah + biru;
+
+            document.getElementById('val-merah').innerText = merah;
+            document.getElementById('val-biru').innerText = biru;
+            document.getElementById('val-total-kelereng').innerText = total;
+
+            function fpb(x, y) {
+                return y === 0 ? x : fpb(y, x % y);
+            }
+            let fpbVal1 = fpb(merah, biru);
+            let r1A = merah / fpbVal1;
+            let r1B = biru / fpbVal1;
+
+            let fpbVal2 = fpb(merah, total);
+            let r2A = merah / fpbVal2;
+            let r2B = total / fpbVal2;
+
+            document.getElementById('hasil-bagian-bagian').innerText = `${r1A} : ${r1B}`;
+            document.getElementById('hasil-bagian-total').innerText = `${r2A} : ${r2B}`;
+        }
+
+        function updateSusuJeruk() {
+            let susu = parseInt(document.getElementById('slider-susu').value);
+            let jeruk = parseInt(document.getElementById('slider-jeruk').value);
+
+            document.getElementById('val-susu').innerText = susu;
+            document.getElementById('val-jeruk').innerText = jeruk;
+
+            let susuStr = '🥛'.repeat(susu);
+            let jerukStr = '🍊'.repeat(jeruk);
+
+            document.getElementById('visual-susu-jeruk').innerHTML = `${susuStr} vs ${jerukStr}`;
+            document.getElementById('teks-rasio-susu-jeruk').innerText = `${susu} : ${jeruk}`;
+            document.getElementById('teks-penjelasan-susu-jeruk').innerText = 
+                `Dalam campuran ini, setiap ${susu} gelas susu dicampur dengan ${jeruk} tetes sirup jeruk. Perbandingan rasionya adalah ${susu} berbanding ${jeruk}.`;
+        }
+
+        function updateLabSenilai() {
+            let a = parseInt(document.getElementById('base-a').value) || 2;
+            let b = parseInt(document.getElementById('base-b').value) || 3;
+            let pengali = parseInt(document.getElementById('slider-pengali').value) || 1;
+
+            document.getElementById('val-pengali').innerText = pengali;
+
+            let hasilA = a * pengali;
+            let hasilB = b * pengali;
+
+            document.getElementById('visual-senilai').innerText = `${hasilA} : ${hasilB}`;
+            
+            document.getElementById('teks-penjelasan-senilai').innerText = 
+                `Rasio dasar yang dimasukkan adalah ${a} : ${b}. Dengan mengalikan kedua sisi dengan faktor pengali ${pengali}, didapat perhitungan (${a} dikali ${pengali}) : (${b} dikali ${pengali}) = ${hasilA} : ${hasilB}. Rasio ini tetap senilai karena proporsinya setara!`;
+        }
+
+        function hitungRasioSatuan() {
+            let satuan = parseFloat(document.getElementById('input-satuan').value) || 1;
+            let total = parseFloat(document.getElementById('input-total').value) || 0;
+            
+            if (satuan <= 0) satuan = 1;
+            let unitRate = Math.round(total / satuan);
+
+            document.getElementById('hasil-unit-rate').innerText = `Rp ${unitRate.toLocaleString('id-ID')}`;
+            document.getElementById('teks-penjelasan-satuan').innerText = 
+                `Untuk menemukan rasio satuan (nilai per 1 satuan), kita membagi total nilai (${total.toLocaleString('id-ID')}) dengan jumlah satuan pembanding (${satuan}). Hasil perhitungannya adalah Rp ${unitRate.toLocaleString('id-ID')} per satuan.`;
+        }
+
+        // ==========================================================
+        // BANK 100 SOAL KUIS LENGKAP DENGAN PEMBAHASAN
+        // ==========================================================
+        const bankSoalRasio = [
+            // Konsep Dasar & FPB (1 - 20)
+            { kategori: "Konsep Dasar", pertanyaan: "Di dalam keranjang terdapat 12 apel merah dan 8 apel hijau. Berapakah rasio apel merah terhadap apel hijau paling sederhana?", pilihan: ["A. 12 : 8", "B. 3 : 2", "C. 2 : 3", "D. 4 : 6"], jawaban: 1, pembahasan: "FPB dari 12 dan 8 adalah 4. Bagi kedua sisi dengan angka 4: (12÷4) : (8÷4) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Berapakah FPB dari angka 12 dan 8 yang digunakan untuk menyederhanakan rasio?", pilihan: ["A. 2", "B. 3", "C. 4", "D. 6"], jawaban: 2, pembahasan: "Faktor 12 (1,2,3,4,6,12) dan faktor 8 (1,2,4,8). Faktor persekutuan terbesar yang sama adalah 4." },
+            { kategori: "Konsep Dasar", pertanyaan: "Di tempat parkir terdapat 15 motor dan 10 mobil. Berapakah rasio jumlah motor terhadap mobil dalam bentuk sederhana?", pilihan: ["A. 3 : 2", "B. 2 : 3", "C. 5 : 2", "D. 3 : 5"], jawaban: 0, pembahasan: "FPB dari 15 dan 10 adalah 5. Maka (15÷5) : (10÷5) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Pak Budi memelihara 18 ekor ayam dan 6 ekor bebek. Berapakah rasio sederhana jumlah ayam terhadap bebek?", pilihan: ["A. 6 : 2", "B. 2 : 6", "C. 3 : 1", "D. 1 : 3"], jawaban: 2, pembahasan: "FPB dari 18 dan 6 adalah 6. Maka (18÷6) : (6÷6) = 3 : 1." },
+            { kategori: "Konsep Dasar", pertanyaan: "Dalam kotak terdapat 9 pensil merah dan 15 pensil biru. Rasio sederhana pensil merah terhadap biru adalah...", pilihan: ["A. 3 : 5", "B. 5 : 3", "C. 9 : 15", "D. 3 : 8"], jawaban: 0, pembahasan: "FPB dari 9 dan 15 adalah 3. Maka (9÷3) : (15÷3) = 3 : 5." },
+            { kategori: "Konsep Dasar", pertanyaan: "Umur Kakak 16 tahun dan Adik 12 tahun. Berapakah rasio sederhana umur Kakak terhadap Adik?", pilihan: ["A. 3 : 4", "B. 4 : 3", "C. 8 : 6", "D. 4 : 5"], jawaban: 1, pembahasan: "FPB dari 16 dan 12 adalah 4. Maka (16÷4) : (12÷4) = 4 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Sebuah kelas memiliki 20 siswa laki-laki dan 25 siswa perempuan. Rasio siswa laki-laki terhadap perempuan adalah...", pilihan: ["A. 4 : 5", "B. 5 : 4", "C. 4 : 9", "D. 5 : 9"], jawaban: 0, pembahasan: "FPB dari 20 dan 25 adalah 5. Maka (20÷5) : (25÷5) = 4 : 5." },
+            { kategori: "Konsep Dasar", pertanyaan: "Terdapat 24 kue cokelat dan 16 kue keju di atas meja. Rasio kue cokelat terhadap kue keju adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 4 : 3", "D. 3 : 4"], jawaban: 1, pembahasan: "FPB dari 24 dan 16 adalah 8. Maka (24÷8) : (16÷8) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Panjang pita merah 30 cm dan pita putih 18 cm. Rasio panjang pita merah terhadap pita putih adalah...", pilihan: ["A. 3 : 5", "B. 5 : 3", "C. 6 : 10", "D. 3 : 8"], jawaban: 1, pembahasan: "FPB dari 30 dan 18 adalah 6. Maka (30÷6) : (18÷6) = 5 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Di kebun terdapat 21 bunga mawar merah dan 14 bunga mawar putih. Rasio mawar merah terhadap putih adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 7 : 2", "D. 3 : 5"], jawaban: 1, pembahasan: "FPB dari 21 dan 14 adalah 7. Maka (21÷7) : (14÷7) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Dalam sebuah akuarium terdapat 10 ikan neon dan 15 ikan guppy. Berapakah rasio ikan neon terhadap guppy?", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 5 : 3", "D. 2 : 5"], jawaban: 0, pembahasan: "FPB dari 10 dan 15 adalah 5. Maka (10÷5) : (15÷5) = 2 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Sebuah toko mainan memiliki 28 boneka beruang dan 21 boneka kelinci. Rasio boneka beruang terhadap kelinci adalah...", pilihan: ["A. 4 : 3", "B. 3 : 4", "C. 7 : 4", "D. 4 : 7"], jawaban: 0, pembahasan: "FPB dari 28 dan 21 adalah 7. Maka (28÷7) : (21÷7) = 4 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Ibu menyiapkan 24 potong kue lumpur dan 36 potong kue lemper. Rasio kue lumpur terhadap lemper adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 4 : 6", "D. 3 : 5"], jawaban: 0, pembahasan: "FPB dari 24 dan 36 adalah 12. Maka (24÷12) : (36÷12) = 2 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Di lapangan terdapat 45 orang dewasa dan 30 anak-anak. Rasio orang dewasa terhadap anak-anak adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 5 : 3", "D. 3 : 5"], jawaban: 1, pembahasan: "FPB dari 45 dan 30 adalah 15. Maka (45÷15) : (30÷15) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Sebuah kandang berisi 16 kambing dan 24 domba. Rasio kambing terhadap domba dalam bentuk sederhana adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 4 : 6", "D. 8 : 12"], jawaban: 0, pembahasan: "FPB dari 16 dan 24 adalah 8. Maka (16÷8) : (24÷8) = 2 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Di perpustakaan sekolah terdapat 50 buku fiksi dan 40 buku non-fiksi. Rasio buku fiksi terhadap non-fiksi adalah...", pilihan: ["A. 4 : 5", "B. 5 : 4", "C. 10 : 8", "D. 5 : 9"], jawaban: 1, pembahasan: "FPB dari 50 dan 40 adalah 10. Maka (50÷10) : (40÷10) = 5 : 4." },
+            { kategori: "Konsep Dasar", pertanyaan: "Pak Rudi memiliki 32 pohon durian dan 24 pohon rambutan. Rasio pohon durian terhadap rambutan adalah...", pilihan: ["A. 3 : 4", "B. 4 : 3", "C. 8 : 6", "D. 4 : 5"], jawaban: 1, pembahasan: "FPB dari 32 dan 24 adalah 8. Maka (32÷8) : (24÷8) = 4 : 3." },
+            { kategori: "Konsep Dasar", pertanyaan: "Dalam kotak paku terdapat 18 paku besar dan 12 paku kecil. Rasio paku besar terhadap kecil adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 6 : 4", "D. 3 : 5"], jawaban: 1, pembahasan: "FPB dari 18 dan 12 adalah 6. Maka (18÷6) : (12÷6) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Terdapat 27 buku tulis bergaris dan 18 buku tulis kotak-kotak. Rasio buku bergaris terhadap kotak-kotak adalah...", pilihan: ["A. 2 : 3", "B. 3 : 2", "C. 9 : 6", "D. 3 : 5"], jawaban: 1, pembahasan: "FPB dari 27 dan 18 adalah 9. Maka (27÷9) : (18÷9) = 3 : 2." },
+            { kategori: "Konsep Dasar", pertanyaan: "Di gudang terdapat 40 karung beras dan 24 karung jagung. Rasio beras terhadap jagung adalah...", pilihan: ["A. 3 : 5", "B. 5 : 3", "C. 8 : 5", "D. 5 : 8"], jawaban: 1, pembahasan: "FPB dari 40 dan 24 adalah 8. Maka (40÷8) : (24÷8) = 5 : 3." },
+
+            // Rasio Senilai (21 - 40)
+            { kategori: "Rasio Senilai", pertanyaan: "Untuk membuat 2 gelas jus mangga diperlukan 3 sendok gula. Jika ingin membuat 6 gelas jus, berapa sendok gula?", pilihan: ["A. 6 sendok", "B. 8 sendok", "C. 9 sendok", "D. 12 sendok"], jawaban: 2, pembahasan: "Pengali gelas adalah 6÷2 = 3 kali. Maka gula dikali 3: 3 × 3 = 9 sendok." },
+            { kategori: "Rasio Senilai", pertanyaan: "Manakah rasio berikut yang SENILAI dengan perbandingan 2 : 3?", pilihan: ["A. 4 : 5", "B. 6 : 9", "C. 3 : 2", "D. 8 : 10"], jawaban: 1, pembahasan: "Rasio 6 : 9 jika disederhanakan dengan membagi 3 akan menghasilkan 2 : 3." },
+            { kategori: "Rasio Senilai", pertanyaan: "Resep kue butuh 4 cangkir tepung untuk 2 cangkir santan. Jika dipakai 8 cangkir tepung, berapa santan?", pilihan: ["A. 2 cangkir", "B. 3 cangkir", "C. 4 cangkir", "D. 6 cangkir"], jawaban: 2, pembahasan: "Tepung naik 2 kali lipat (8÷4=2), maka santan juga dikali 2: 2 × 2 = 4 cangkir." },
+            { kategori: "Rasio Senilai", pertanyaan: "Rasio senilai dari 5 : 4 apabila masing-masing dikalikan dengan angka 3 adalah...", pilihan: ["A. 8 : 7", "B. 15 : 12", "C. 10 : 8", "D. 20 : 16"], jawaban: 1, pembahasan: "Kalikan kedua sisi dengan 3: (5×3) : (4×3) = 15 : 12." },
+            { kategori: "Rasio Senilai", pertanyaan: "Teh butuh 3 sendok teh bubuk dan 6 gula. Jika bubuk teh jadi 6 sendok, gula yang diperlukan agar senilai adalah...", pilihan: ["A. 9 sendok", "B. 10 sendok", "C. 12 sendok", "D. 15 sendok"], jawaban: 2, pembahasan: "Bubuk teh bertambah 2 kali lipat, maka gula dikali 2: 6 × 2 = 12 sendok." },
+            { kategori: "Rasio Senilai", pertanyaan: "Manakah pasangan rasio di bawah ini yang TIDAK senilai?", pilihan: ["A. 2 : 3 dan 4 : 6", "B. 3 : 4 dan 6 : 8", "C. 5 : 2 dan 10 : 6", "D. 1 : 4 dan 3 : 12"], jawaban: 2, pembahasan: "5 : 2 jika dikali 2 adalah 10 : 4 (bukan 10 : 6), sehingga 5:2 dan 10:6 tidak senilai." },
+            { kategori: "Rasio Senilai", pertanyaan: "Jika rasio permen cokelat dan vanila adalah 3 : 5 dan permen cokelat ada 12 buah, berapa permen vanila?", pilihan: ["A. 15 buah", "B. 18 buah", "C. 20 buah", "D. 25 buah"], jawaban: 2, pembahasan: "Faktor pengali 12÷3 = 4. Maka permen vanila = 5 × 4 = 20 buah." },
+            { kategori: "Rasio Senilai", pertanyaan: "Sebuah peta menggunakan skala rasio 1 : 500. Jika jarak pada peta 4 cm, berapakah jarak sebenarnya?", pilihan: ["A. 100 cm", "B. 200 cm", "C. 2.000 cm", "D. 5.000 cm"], jawaban: 2, pembahasan: "Kalikan jarak peta dengan skala: 4 × 500 = 2.000 cm." },
+            { kategori: "Rasio Senilai", pertanyaan: "Ibu mencampur 3 liter air dengan 2 botol sirup. Jika ingin memakai 6 botol sirup, berapa liter air yang dibutuhkan?", pilihan: ["A. 6 liter", "B. 8 liter", "C. 9 liter", "D. 12 liter"], jawaban: 0, pembahasan: "Sirup naik 3 kali lipat (6÷2=3), maka air dikali 3: 3 × 3 = 9 liter." },
+            { kategori: "Rasio Senilai", pertanyaan: "Perbandingan uang Andi dan Budi adalah 4 : 7. Jika uang Andi Rp 20.000, berapa uang Budi?", pilihan: ["A. Rp 28.000", "B. Rp 35.000", "C. Rp 42.000", "D. Rp 49.000"], jawaban: 1, pembahasan: "Pengali = 20.000 ÷ 4 = 5.000. Maka uang Budi = 7 × 5.000 = Rp 35.000." },
+            { kategori: "Rasio Senilai", pertanyaan: "Untuk membuat 3 porsi nasi goreng diperlukan 6 siung bawang. Jika membuat 9 porsi, berapa bawang yang dibutuhkan?", pilihan: ["A. 12 siung", "B. 15 siung", "C. 18 siung", "D. 21 siung"], jawaban: 2, pembahasan: "Porsi naik 3 kali (9÷3=3), maka bawang dikali 3: 6 × 3 = 18 siung." },
+            { kategori: "Rasio Senilai", pertanyaan: "Rasio senilai dari 4 : 5 jika masing-masing dikalikan 4 adalah...", pilihan: ["A. 16 : 20", "B. 8 : 10", "C. 12 : 15", "D. 20 : 25"], jawaban: 0, pembahasan: "Kalikan kedua sisi dengan 4: (4×4) : (5×4) = 16 : 20." },
+            { kategori: "Rasio Senilai", pertanyaan: "Perbandingan kelereng Ali dan Beni adalah 2 : 5. Jika kelereng Beni 25 butir, berapa kelereng Ali?", pilihan: ["A. 5 butir", "B. 10 butir", "C. 15 butir", "D. 20 butir"], jawaban: 1, pembahasan: "Pengali = 25 ÷ 5 = 5. Kelereng Ali = 2 × 5 = 10 butir." },
+            { kategori: "Rasio Senilai", pertanyaan: "Sebuah mobil menghabiskan 2 liter bensin untuk menempuh jarak 30 km. Berapa km jarak dengan 6 liter bensin?", pilihan: ["A. 60 km", "B. 90 km", "C. 120 km", "D. 150 km"], jawaban: 1, pembahasan: "Bensin naik 3 kali (6÷2=3), maka jarak dikali 3: 30 × 3 = 90 km." },
+            { kategori: "Rasio Senilai", pertanyaan: "Perbandingan jumlah buku matematika dan bahasa adalah 5 : 3. Jika buku matematika ada 25 buah, berapa buku bahasa?", pilihan: ["A. 9 buah", "B. 12 buah", "C. 15 buah", "D. 18 buah"], jawaban: 2, pembahasan: "Pengali = 25 ÷ 5 = 5. Buku bahasa = 3 × 5 = 15 buah." },
+            { kategori: "Rasio Senilai", pertanyaan: "Manakah rasio di bawah ini yang senilai dengan 7 : 4?", pilihan: ["A. 14 : 9", "B. 21 : 12", "C. 28 : 20", "D. 35 : 16"], jawaban: 1, pembahasan: "7 : 4 jika dikalikan 3 akan menghasilkan 21 : 12." },
+            { kategori: "Rasio Senilai", pertanyaan: "Ayah membuat adonan roti dengan perbandingan tepung dan mentega 6 : 2. Jika dipakai 18 kg tepung, berapa mentega?", pilihan: ["A. 4 kg", "B. 6 kg", "C. 8 kg", "D. 9 kg"], jawaban: 1, pembahasan: "Pengali = 18 ÷ 6 = 3. Mentega = 2 × 3 = 6 kg." },
+            { kategori: "Rasio Senilai", pertanyaan: "Perbandingan panjang dan lebar lapangan adalah 5 : 2. Jika lebarnya 10 meter, berapakah panjang lapangan?", pilihan: ["A. 15 meter", "B. 20 meter", "C. 25 meter", "D. 30 meter"], jawaban: 2, pembahasan: "Pengali = 10 ÷ 2 = 5. Panjang = 5 × 5 = 25 meter." },
+            { kategori: "Rasio Senilai", pertanyaan: "Untuk membuat 5 gelas teh manis butuh 10 sendok gula. Berapa sendok gula untuk 8 gelas teh manis?", pilihan: ["A. 12 sendok", "B. 14 sendok", "C. 16 sendok", "D. 18 sendok"], jawaban: 2, pembahasan: "Gula per gelas = 10÷5 = 2 sendok. Untuk 8 gelas = 8 × 2 = 16 sendok." },
+            { kategori: "Rasio Senilai", pertanyaan: "Rasio senilai 3 : 7 jika angka pembanding kedua menjadi 28 adalah...", pilihan: ["A. 9", "B. 12", "C. 14", "D. 21"], jawaban: 1, pembahasan: "Pengali = 28 ÷ 7 = 4. Angka pertama menjadi 3 × 4 = 12." },
+
+            // Bagian vs Keseluruhan (41 - 60)
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di kelas ada 12 siswa laki-laki dan 18 perempuan. Berapakah rasio siswa laki-laki terhadap KESELURUHAN siswa?", pilihan: ["A. 2 : 3", "B. 3 : 5", "C. 2 : 5", "D. 12 : 18"], jawaban: 1, pembahasan: "Total siswa = 12 + 18 = 30. Rasio laki-laki terhadap total = 12 : 30 (sederhanakan bagi 6) = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Dalam kantong ada 5 kelereng merah dan 10 biru (total 15). Rasio kelereng merah terhadap total keseluruhan?", pilihan: ["A. 1 : 2", "B. 1 : 3", "C. 2 : 3", "D. 5 : 10"], jawaban: 1, pembahasan: "Merah = 5, Total = 15. Rasio = 5 : 15 (sederhanakan bagi 5) = 1 : 3." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Keranjang berisi 7 mangga dan 14 jeruk (total 21 buah). Rasio buah mangga terhadap seluruh buah?", pilihan: ["A. 1 : 2", "B. 1 : 3", "C. 2 : 3", "D. 7 : 14"], jawaban: 1, pembahasan: "Mangga = 7, Total = 21. Rasio = 7 : 21 (sederhanakan bagi 7) = 1 : 3." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di perpustakaan ada 20 buku cerita dan 30 buku pelajaran. Rasio buku cerita terhadap KESELURUHAN buku?", pilihan: ["A. 2 : 3", "B. 3 : 5", "C. 2 : 5", "D. 3 : 2"], jawaban: 2, pembahasan: "Total buku = 20 + 30 = 50. Rasio cerita terhadap total = 20 : 50 = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Tim basket punya 4 pemain inti dan 8 cadangan (total 12). Rasio pemain inti terhadap seluruh pemain?", pilihan: ["A. 1 : 3", "B. 1 : 2", "C. 2 : 3", "D. 4 : 8"], jawaban: 0, pembahasan: "Inti = 4, Total = 12. Rasio = 4 : 12 (sederhanakan bagi 4) = 1 : 3." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di akuarium ada 6 ikan koki dan 14 komet (total 20). Rasio ikan koki terhadap total seluruh ikan?", pilihan: ["A. 3 : 7", "B. 3 : 10", "C. 7 : 10", "D. 6 : 14"], jawaban: 1, pembahasan: "Koki = 6, Total = 20. Rasio = 6 : 20 (sederhanakan bagi 2) = 3 : 10." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Dalam satu keranjang terdapat 8 apel merah dan 12 apel hijau. Berapakah rasio apel hijau terhadap total keseluruhan?", pilihan: ["A. 2 : 5", "B. 3 : 5", "C. 2 : 3", "D. 3 : 2"], jawaban: 1, pembahasan: "Total apel = 8 + 12 = 20. Rasio hijau terhadap total = 12 : 20 = 3 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Sebuah wadah berisi 15 kelereng hitam dan 25 kelereng putih. Rasio kelereng hitam terhadap keseluruhan kelereng?", pilihan: ["A. 3 : 5", "B. 3 : 8", "C. 5 : 8", "D. 5 : 3"], jawaban: 1, pembahasan: "Total = 15 + 25 = 40. Rasio hitam terhadap total = 15 : 40 = 3 : 8." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di lapangan ada 10 anak perempuan dan 15 anak laki-laki. Rasio anak perempuan terhadap seluruh anak?", pilihan: ["A. 2 : 3", "B. 2 : 5", "C. 3 : 5", "D. 3 : 2"], jawaban: 1, pembahasan: "Total = 25 anak. Rasio perempuan terhadap total = 10 : 25 = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Suatu kebun memiliki 12 pohon mangga dan 28 pohon rambutan. Rasio pohon mangga terhadap seluruh pohon?", pilihan: ["A. 3 : 7", "B. 3 : 10", "C. 7 : 10", "D. 3 : 4"], jawaban: 1, pembahasan: "Total = 40 pohon. Rasio mangga terhadap total = 12 : 40 = 3 : 10." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di tas terdapat 3 buku tulis dan 9 buku gambar (total 12 buku). Rasio buku tulis terhadap seluruh buku?", pilihan: ["A. 1 : 3", "B. 1 : 4", "C. 3 : 4", "D. 3 : 9"], jawaban: 1, pembahasan: "Tulis = 3, Total = 12. Rasio = 3 : 12 = 1 : 4." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Kotak pensil berisi 5 pensil hitam dan 15 pensil warna. Rasio pensil hitam terhadap seluruh pensil?", pilihan: ["A. 1 : 3", "B. 1 : 4", "C. 3 : 4", "D. 5 : 15"], jawaban: 1, pembahasan: "Hitam = 5, Total = 20. Rasio = 5 : 20 = 1 : 4." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Dalam bus terdapat 14 penumpang pria dan 21 penumpang wanita. Rasio pria terhadap seluruh penumpang?", pilihan: ["A. 2 : 3", "B. 2 : 5", "C. 3 : 5", "D. 14 : 21"], jawaban: 1, pembahasan: "Total = 35 penumpang. Rasio pria terhadap total = 14 : 35 = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Sebuah keranjang buah berisi 9 buah pir dan 27 buah apel. Rasio buah pir terhadap seluruh buah?", pilihan: ["A. 1 : 3", "B. 1 : 4", "C. 3 : 4", "D. 3 : 1"], jawaban: 1, pembahasan: "Total = 36 buah. Rasio pir terhadap total = 9 : 36 = 1 : 4." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di sangkar terdapat 8 burung perkutut dan 24 burung merpati. Rasio perkutut terhadap seluruh burung?", pilihan: ["A. 1 : 3", "B. 1 : 4", "C. 3 : 4", "D. 1 : 2"], jawaban: 1, pembahasan: "Total = 32 burung. Rasio perkutut terhadap total = 8 : 32 = 1 : 4." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Dalam suatu tim terdapat 6 pemain depan dan 9 pemain belakang. Rasio pemain depan terhadap keseluruhan?", pilihan: ["A. 2 : 3", "B. 2 : 5", "C. 3 : 5", "D. 3 : 2"], jawaban: 1, pembahasan: "Total = 15 pemain. Rasio depan terhadap total = 6 : 15 = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Di rak buku ada 15 novel dan 35 buku pelajaran. Rasio novel terhadap seluruh buku di rak?", pilihan: ["A. 3 : 7", "B. 3 : 10", "C. 7 : 10", "D. 3 : 5"], jawaban: 1, pembahasan: "Total = 50 buku. Rasio novel terhadap total = 15 : 50 = 3 : 10." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Sebuah kotak berisi 10 kelereng kuning dan 30 kelereng hijau. Rasio kelereng kuning terhadap total kelereng?", pilihan: ["A. 1 : 3", "B. 1 : 4", "C. 3 : 4", "D. 1 : 2"], jawaban: 1, pembahasan: "Total = 40 kelereng. Rasio kuning terhadap total = 10 : 40 = 1 : 4." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Pak Tani memanen 16 semangka manis dan 24 semangka biasa. Rasio semangka manis terhadap seluruh panen?", pilihan: ["A. 2 : 3", "B. 2 : 5", "C. 3 : 5", "D. 3 : 2"], jawaban: 1, pembahasan: "Total = 40 semangka. Rasio manis terhadap total = 16 : 40 = 2 : 5." },
+            { kategori: "Bagian terhadap Keseluruhan", pertanyaan: "Dalam lomba melukis terdapat 12 peserta pria dan 28 peserta wanita. Rasio peserta pria terhadap total peserta?", pilihan: ["A. 3 : 7", "B. 3 : 10", "C. 7 : 10", "D. 3 : 4"], jawaban: 1, pembahasan: "Total = 40 peserta. Rasio pria terhadap total = 12 : 40 = 3 : 10." },
+
+            // Rasio Satuan / Unit Rate (61 - 80)
+            { kategori: "Rasio Satuan", pertanyaan: "Ibu membeli 5 kg jeruk dengan total harga Rp 75.000. Berapakah harga 1 kg jeruk tersebut?", pilihan: ["A. Rp 10.000", "B. Rp 12.000", "C. Rp 15.000", "D. Rp 20.000"], jawaban: 2, pembahasan: "Bagi total harga dengan jumlah berat: 75.000 ÷ 5 = Rp 15.000 per kg." },
+            { kategori: "Rasio Satuan", pertanyaan: "Mobil menempuh jarak 180 km dalam 3 jam. Berapa kecepatan rata-rata mobil tersebut per jam?", pilihan: ["A. 50 km/jam", "B. 60 km/jam", "C. 80 km/jam", "D. 90 km/jam"], jawaban: 1, pembahasan: "Bagi total jarak dengan waktu: 180 ÷ 3 = 60 km/jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Budi membeli 4 buku tulis seharga Rp 20.000. Berapakah harga satuan untuk 1 buah buku tulis?", pilihan: ["A. Rp 4.000", "B. Rp 5.000", "C. Rp 6.000", "D. Rp 8.000"], jawaban: 1, pembahasan: "Bagi total harga dengan jumlah buku: 20.000 ÷ 4 = Rp 5.000 per buku." },
+            { kategori: "Rasio Satuan", pertanyaan: "Mesin cetak menghasilkan 240 lembar kertas dalam 4 menit. Berapa lembar dicetak dalam 1 menit?", pilihan: ["A. 40 lembar", "B. 50 lembar", "C. 60 lembar", "D. 80 lembar"], jawaban: 2, pembahasan: "Bagi total lembar dengan waktu: 240 ÷ 4 = 60 lembar per menit." },
+            { kategori: "Rasio Satuan", pertanyaan: "Ayah mengisi bensin 10 liter untuk jarak 120 km. Berapa km jarak yang ditempuh per 1 liter bensin?", pilihan: ["A. 10 km", "B. 12 km", "C. 15 km", "D. 20 km"], jawaban: 1, pembahasan: "Bagi jarak dengan liter bensin: 120 ÷ 10 = 12 km per liter." },
+            { kategori: "Rasio Satuan", pertanyaan: "Siti mengetik 150 kata dalam 3 menit. Berapa jumlah kata yang diketik Siti dalam 1 menit?", pilihan: ["A. 40 kata", "B. 45 kata", "C. 50 kata", "D. 60 kata"], jawaban: 2, pembahasan: "Bagi total kata dengan waktu: 150 ÷ 3 = 50 kata per menit." },
+            { kategori: "Rasio Satuan", pertanyaan: "Harga 3 kg mangga adalah Rp 45.000. Berapakah harga satuan untuk 1 kg mangga?", pilihan: ["A. Rp 10.000", "B. Rp 12.000", "C. Rp 15.000", "D. Rp 18.000"], jawaban: 2, pembahasan: "Bagi total harga dengan berat: 45.000 ÷ 3 = Rp 15.000 per kg." },
+            { kategori: "Rasio Satuan", pertanyaan: "Sebuah bus menempuh 240 km dalam waktu 4 jam. Berapa kecepatan rata-rata bus per jam?", pilihan: ["A. 50 km/jam", "B. 55 km/jam", "C. 60 km/jam", "D. 65 km/jam"], jawaban: 2, pembahasan: "Bagi total jarak dengan waktu: 240 ÷ 4 = 60 km/jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Ibu membayar Rp 12.000 untuk pembelian 3 buku tulis. Berapa harga 1 buku tulis?", pilihan: ["A. Rp 3.000", "B. Rp 4.000", "C. Rp 5.000", "D. Rp 6.000"], jawaban: 1, pembahasan: "Bagi total harga dengan jumlah buku: 12.000 ÷ 3 = Rp 4.000." },
+            { kategori: "Rasio Satuan", pertanyaan: "Kran mengalirkan 60 liter air dalam waktu 5 menit. Berapa liter air mengalir dalam 1 menit?", pilihan: ["A. 10 liter", "B. 12 liter", "C. 15 liter", "D. 20 liter"], jawaban: 1, pembahasan: "Bagi total liter dengan waktu: 60 ÷ 5 = 12 liter per menit." },
+            { kategori: "Rasio Satuan", pertanyaan: "Harga 6 kg apel adalah Rp 180.000. Berapakah harga untuk 1 kg apel tersebut?", pilihan: ["A. Rp 25.000", "B. Rp 30.000", "C. Rp 35.000", "D. Rp 40.000"], jawaban: 1, pembahasan: "Bagi total harga dengan berat: 180.000 ÷ 6 = Rp 30.000 per kg." },
+            { kategori: "Rasio Satuan", pertanyaan: "Kereta api menempuh 350 km dalam waktu 5 jam. Berapa kecepatan rata-rata kereta per jam?", pilihan: ["A. 60 km/jam", "B. 70 km/jam", "C. 80 km/jam", "D. 90 km/jam"], jawaban: 1, pembahasan: "Bagi total jarak dengan waktu: 350 ÷ 5 = 70 km/jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Ibu membeli 4 liter minyak goreng seharga Rp 64.000. Berapa harga 1 liter minyak goreng?", pilihan: ["A. Rp 14.000", "B. Rp 15.000", "C. Rp 16.000", "D. Rp 18.000"], jawaban: 2, pembahasan: "Bagi total harga dengan liter: 64.000 ÷ 4 = Rp 16.000 per liter." },
+            { kategori: "Rasio Satuan", pertanyaan: "Sebuah konveksi menjahit 120 kaos dalam waktu 6 jam. Berapa banyak kaos yang dijahit dalam 1 jam?", pilihan: ["A. 15 kaos", "B. 20 kaos", "C. 25 kaos", "D. 30 kaos"], jawaban: 1, pembahasan: "Bagi total kaos dengan jam: 120 ÷ 6 = 20 kaos per jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Harga 5 buah pensil adalah Rp 15.000. Berapakah harga untuk 1 buah pensil?", pilihan: ["A. Rp 2.000", "B. Rp 2.500", "C. Rp 3.000", "D. Rp 3.500"], jawaban: 2, pembahasan: "Bagi total harga dengan jumlah pensil: 15.000 ÷ 5 = Rp 3.000 per buah." },
+            { kategori: "Rasio Satuan", pertanyaan: "Sebuah lilin terbakar habis setinggi 30 cm dalam waktu 5 jam. Berapa cm lilin menyusut dalam 1 jam?", pilihan: ["A. 5 cm", "B. 6 cm", "C. 7 cm", "D. 8 cm"], jawaban: 1, pembahasan: "Bagi total tinggi dengan waktu: 30 ÷ 5 = 6 cm per jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Ayah membayar langganan internet Rp 150.000 untuk 3 bulan. Berapa biaya langganan per 1 bulan?", pilihan: ["A. Rp 40.000", "B. Rp 45.000", "C. Rp 50.000", "D. Rp 60.000"], jawaban: 2, pembahasan: "Bagi total biaya dengan bulan: 150.000 ÷ 3 = Rp 50.000 per bulan." },
+            { kategori: "Rasio Satuan", pertanyaan: "Sebuah pabrik menghasilkan 500 botol minuman dalam 10 jam. Berapa botol dihasilkan dalam 1 jam?", pilihan: ["A. 40 botol", "B. 50 botol", "C. 60 botol", "D. 80 botol"], jawaban: 1, pembahasan: "Bagi total botol dengan jam: 500 ÷ 10 = 50 botol per jam." },
+            { kategori: "Rasio Satuan", pertanyaan: "Harga 2 kg daging sapi adalah Rp 260.000. Berapakah harga untuk 1 kg daging sapi?", pilihan: ["A. Rp 120.000", "B. Rp 130.000", "C. Rp 140.000", "D. Rp 150.000"], jawaban: 1, pembahasan: "Bagi total harga dengan berat: 260.000 ÷ 2 = Rp 130.000 per kg." },
+            { kategori: "Rasio Satuan", pertanyaan: "Sebuah pompa air mengalirkan 450 liter air dalam waktu 9 menit. Berapa liter air mengalir dalam 1 menit?", pilihan: ["A. 40 liter", "B. 45 liter", "C. 50 liter", "D. 60 liter"], jawaban: 2, pembahasan: "Bagi total liter dengan menit: 450 ÷ 9 = 50 liter per menit." },
+
+            // Rasio Satuan Waktu - Panen Bayam (81 - 100)
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Bibit bayam menghasilkan total 20 kg hasil panen dalam 4 minggu. Berapakah rasio hasil panen terhadap satuan waktu per 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 10 kg / minggu", "D. 20 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan jumlah minggu: 20 ÷ 4 = 5 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Kebun Pak Tani menghasilkan 36 kg bayam selama 6 minggu masa panen. Berapa kg hasil panen setiap 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 6 kg / minggu", "D. 8 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 36 ÷ 6 = 6 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Satu siklus masa panen bibit bayam butuh 4 minggu (1 bulan). Jika masa penanaman 16 minggu, berapa kali siklus panen?", pilihan: ["A. 3 kali", "B. 4 kali", "C. 5 kali", "D. 6 kali"], jawaban: 1, pembahasan: "Bagi total minggu dengan siklus: 16 ÷ 4 = 4 kali siklus panen." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Kelompok tani mencatat panen bayam 15 kg dalam 3 minggu. Berapakah rasio hasil panen bayam per 1 minggu?", pilihan: ["A. 3 kg / minggu", "B. 4 kg / minggu", "C. 5 kg / minggu", "D. 6 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 15 ÷ 3 = 5 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Dalam waktu 2 minggu, kebun bayam menghasilkan 12 kg sayuran. Berapa panen bayam dalam 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 6 kg / minggu", "D. 8 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 12 ÷ 2 = 6 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Pak Rudi memanen bayam total 40 kg selama 8 minggu. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 10 kg / minggu", "D. 20 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 40 ÷ 8 = 5 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Tanaman bayam di pot menghasilkan 8 kg dalam 2 minggu. Berapa hasil panen bayam per 1 minggu?", pilihan: ["A. 2 kg / minggu", "B. 3 kg / minggu", "C. 4 kg / minggu", "D. 5 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 8 ÷ 2 = 4 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Panen bayam hidroponik menghasilkan 50 kg dalam waktu 5 minggu. Berapa hasil panen per 1 minggu?", pilihan: ["A. 5 kg / minggu", "B. 8 kg / minggu", "C. 10 kg / minggu", "D. 12 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 50 ÷ 5 = 10 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Siti memanen kebun bayam kecil miliknya sebanyak 6 kg dalam 3 minggu. Rasio panen per 1 minggu adalah...", pilihan: ["A. 1 kg / minggu", "B. 2 kg / minggu", "C. 3 kg / minggu", "D. 4 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 6 ÷ 3 = 2 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Lahan tani sekolah menghasilkan 28 kg bayam selama 4 minggu. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 6 kg / minggu", "B. 7 kg / minggu", "C. 8 kg / minggu", "D. 9 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 28 ÷ 4 = 7 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Kebun organik memanen total 45 kg bayam dalam waktu 9 minggu. Berapa rasio hasil panen setiap 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 6 kg / minggu", "D. 7 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 45 ÷ 9 = 5 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Petani sayur mendapati hasil panen bayam mencapai 24 kg dalam waktu 3 minggu. Berapa rasio panen per 1 minggu?", pilihan: ["A. 6 kg / minggu", "B. 7 kg / minggu", "C. 8 kg / minggu", "D. 9 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 24 ÷ 3 = 8 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Bibit bayam di pekarangan rumah menghasilkan 10 kg dalam 2 minggu. Berapa rasio panen per 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 6 kg / minggu", "D. 8 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 10 ÷ 2 = 5 kg meinggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Pak Tono menghasilkan 60 kg bayam selama 10 minggu masa tanam. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 5 kg / minggu", "B. 6 kg / minggu", "C. 7 kg / minggu", "D. 8 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 60 ÷ 10 = 6 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Kelompok tani merawat bibit bayam dan mendapat total 14 kg dalam 2 minggu. Rasio panen per 1 minggu adalah...", pilihan: ["A. 5 kg / minggu", "B. 6 kg / minggu", "C. 7 kg / minggu", "D. 8 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 14 ÷ 2 = 7 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Panen bayam di kebun sekolah menghasilkan 32 kg dalam 8 minggu. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 3 kg / minggu", "B. 4 kg / minggu", "C. 5 kg / minggu", "D. 6 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 32 ÷ 8 = 4 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Bibit bayam siap panen menghasilkan 18 kg dalam 3 minggu. Berapakah rasio hasil panen bayam per 1 minggu?", pilihan: ["A. 5 kg / minggu", "B. 6 kg / minggu", "C. 7 kg / minggu", "D. 8 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 18 ÷ 3 = 6 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Kebun bayam rumahan menghasilkan 25 kg dalam waktu 5 minggu. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 4 kg / minggu", "B. 5 kg / minggu", "C. 6 kg / minggu", "D. 7 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 25 ÷ 5 = 5 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Petani memanen bayam total 70 kg selama 7 minggu. Berapakah rasio hasil panen terhadap satuan waktu per 1 minggu?", pilihan: ["A. 8 kg / minggu", "B. 9 kg / minggu", "C. 10 kg / minggu", "D. 12 kg / minggu"], jawaban: 2, pembahasan: "Bagi total panen dengan minggu: 70 ÷ 7 = 10 kg setiap 1 minggu." },
+            { kategori: "Rasio Satuan Waktu", pertanyaan: "Tanaman bayam menghasilkan total 21 kg dalam 7 minggu. Berapakah rasio hasil panen per 1 minggu?", pilihan: ["A. 2 kg / minggu", "B. 3 kg / minggu", "C. 4 kg / minggu", "D. 5 kg / minggu"], jawaban: 1, pembahasan: "Bagi total panen dengan minggu: 21 ÷ 7 = 3 kg setiap 1 minggu." }
+        ];
+
+        // ==========================================================
+        // BANK 50 PANTUN LUCU BERDASARKAN HASIL NILAI
+        // ==========================================================
+        const bankPantun = {
+            tinggi: [ // Skor 80 - 100
+                "Makan kue serabi sambil melompat,<br>Jatuh ke selokan mukanya belang.<br>Nilai kuis kamu sangat hebat,<br>Bikin guru senyum sampai ke ubun-ubun dan melayang!",
+                "Pergi ke pasar membeli durian,<br>Pulangnya memeluk tiang listrik.<br>Selamat ya siswa keturunan genius dan rupawan,<br>Soal rasio habis kamu sikat dengan trik!",
+                "Ada kucing memakai kacamata,<br>Sedang asik main komputer di kamar.<br>Otak kamu sungguh luar biasa,<br>Nilaimu sempurna bikin kaget serumah dan tentangga sekitar!",
+                "Makan kerupuk bunyinya kriuk,<br>Kerupuk jatuh dimakan domba.<br>Nilai tinggi bikin semua terpukau dan terperanjat,<br>Juara rasio siap tancap gas di ajang lomba!",
+                "Naik unta pakai topi jagoan,<br>Untanya kaget melihat cicak.<br>Dapat nilai sempurna penuh kebanggaan,<br>Pintar matematika bikin senyum makin kocak!",
+                "Beli bakso pakai mangkok bakul,<br>Makan di atas pohon kelapa.<br>Anak pintar matematika memang jempolan dan gaul,<br>Nilai 100 didapat tanpa susah payah!",
+                "Jalan-jalan ke kota Palu,<br>Jangan lupa beli rambutan.<br>Soal rasio selesai selalu,<br>Kamu memang murid paling andalan!",
+                "Beli es krim rasanya cokelat,<br>Dimakan ayam di atas genteng.<br>Wah kamu juara kuis paling hebat,<br>Sudah pintar, baik, dan ganteng/cantik ganteng!",
+                "Ada katak belajar menari,<br>Tiba-tiba pingsan dikagetkan bebek.<br>Nilai tinggi bikin bangga senang hati,<br>Matematika rasio mah lewat gampang banget!",
+                "Terbang tinggi si burung dara,<br>Hinggap sebentar di atas pagar.<br>Nilai kuis rasio luar biasa,<br>Masa depan cerah makin segar!",
+                "Makan pisang goreng di sore hari,<br>Minumnya es teh manis segar.<br>Skor tinggi didapat hari ini,<br>Otak encer cerdas dan pintar!",
+                "Pergi berlayar ke pulau samudera,<br>Melihat ikan melompat-lompat.<br>Selamat nilai kamu sangat sempurna,<br>Bintang kuis berhasil kamu dapat!",
+                "Ada monyet jualan jambu,<br>Jambunya manis dimakan kancil.<br>Senangnya hati ayah dan ibu,<br>Melihat nilai kuis anak yang terampil!",
+                "Pergi ke toko membeli pita,<br>Pita merah indah menawan.<br>Kamu anak cerdas Matematika,<br>Hebat sekali dalam perbandingan!",
+                "Makan rujak buah mangga,<br>Pedasnya bikin mata terpejam.<br>Nilai tinggi bikin bangga,<br>Ilmu matematika makin tajam!",
+                "Ada kelinci melompat-lompat,<br>Mengejar kupu-kupu di taman.<br>Kuis rasio lulus dengan hebat,<br>Jadilah contoh buat teman-teman!",
+                "Beli mangga di pasar pagi,<br>Manis rasanya bikin ketagihan.<br>Nilai bagus dicapai lagi,<br>Prestasi hebat penuh pujian!",
+                "Makan nangka sambil berdiri,<br>Disengat lebah berlari-lari.<br>Hebat sekali skor kuis hari ini,<br>Bikin tersenyum sepanjang hari!"
+            ],
+            sedang: [ // Skor 60 - 79
+                "Beli kelapa di toko Pak Mamat,<br>Kelapanya menggelinding ke dalam sumur.<br>Nilai kamu sudah lumayan hebat,<br>Tinggal belajar dikit lagi biar otak makin lentur!",
+                "Makan pisang bersama monyet,<br>Monyetnya pingsan makan sambal terasi.<br>Jangan menyerah dan jangan keburu kaget,<br>Sedikit lagi kamu jadi juara matematika se-galaksi!",
+                "Naik sepeda bannya kempes,<br>Didorong sapi sampai ke kota.<br>Nilai kuis kamu sudah lumayan sukses,<br>Asal rajin latihan rasio pasti makin jaya!",
+                "Ada kambing belajar main gitar,<br>Suaranya sumbang bikin kaget bebek.<br>Kamu sebenarnya sudah lumayan pintar,<br>Cuma butuh teliti dikit lagi pas ngitung cewek/cowok!",
+                "Pergi ke pantai mencari kerang,<br>Dapatnya sendal jepit sebelah.<br>Hasil kuis kamu sudah terang,<br>Maju terus jangan cepat menyerah!",
+                "Beli es lilin rasa stroberi,<br>Jatuh ke tanah dimakan semut.<br>Nilaimu sudah bagus hari ini,<br>Yuk latihan lagi biar makin yahud!",
+                "Ada gajah melompat-lompat,<br>Pohon pisang langsung tumbang.<br>Nilaimu lumayan sudah dapat,<br>Ayo belajar lagi makin gemilang!",
+                "Makan bakso ditambah cuka,<br>Pedasnya bikin bersin-bersin.<br>Matematika itu sangat disuka,<br>Kalau belajarnya makin rajin!",
+                "Ke pasar membeli pepaya,<br>Pepayanya jatuh di jalanan.<br>Jangan ragu dan tetap percaya,<br>Nilaimu siap naik ke puncak kemenangan!",
+                "Beli roti di toko Pak Saman,<br>Rotinya hangat enak dimakan.<br>Nilai cukup jadi pengalaman,<br>Kuis berikutnya pasti ditingkatkan!",
+                "Ada bebek berenang di rawa,<br>Dikejar angsa sampai ke tepi.<br>Jangan sedih atau kecewa,<br>Nilaimu sudah lumayan bagus nih!",
+                "Makan buah nangka bersama-sama,<br>Manis rasanya bikin nagih.<br>Nilaimu sudah lumayan bangga,<br>Belajar lagi biar makin canggih!",
+                "Beli celana warnanya biru,<br>Dipakai jalan ke rumah teman.<br>Tetap semangat belajar hal baru,<br>Rasio matematika pasti dipaham!",
+                "Ada kelinci makan wortel segar,<br>Lari cepat menuju hutan.<br>Hasil kuis lumayan mekar,<br>Tingkatkan terus ke tingkat lanjutan!",
+                "Ke warung membeli garam,<br>Garam dapur buatan lokal.<br>Nilaimu sudah tidak suram,<br>Latihan lagi pasti maksimal!",
+                "Pergi berkemah di dekat bukit,<br>Melihat bintang di malam hari.<br>Asal mau belajar sedikit demi sedikit,<br>Nilai 100 pasti didapati!"
+            ],
+            rendah: [ // Skor 0 - 59
+                "Pergi ke pasar beli terasi,<br>Sampai di sana terasinya dimakan musang.<br>Nilaimu agak bikin sedih hati,<br>Tapi tenang, belajar rasio lagi biar makin terang benderang!",
+                "Ada gajah mencoba terbang,<br>Tiba-tiba nyangkut di pohon jengkol.<br>Jangan nangis dan jangan bimbang,<br>Yuk ulang kuisnya lagi sampai nilaimu jempol!",
+                "Makan durian busuk bijinya keras,<br>Dibuang ke selokan dikejar angsa.<br>Mari belajar matematika lebih keras,<br>Biar tidak kalah sama kancil yang bijaksana!",
+                "Beli ayam goreng dapatnya tulang,<br>Dimakan kucing sambil melotot.<br>Nilai kecil bisa diulang,<br>Yang penting belajarnya jangan kendor dan melotot!",
+                "Naik delman ke rumah nenek,<br>Kudanya lepas nyasar ke warung.<br>Jangan murung dan jangan termehek-mehek,<br>Ayo baca materi lagi biar gak linglung!",
+                "Ada monyet memakai topi,<br>Tertawa geli melihat itik.<br>Belajar rasio itu asyik sekali,<br>Yuk ulang kuisnya dalam beberapa detik!",
+                "Pergi ke laut menangkap ikan,<br>Ikannya hilang dimakan hiu.<br>Kuis ini cuma latihan,<br>Ulangi lagi pasti dapat nilai baru!",
+                "Beli kerupuk rasa cokelat,<br>Kerupuknya keras giginya patah.<br>Ayo semangat belajar yang giat,<br>Latihan rasio tidak akan sia-sia dan kalah!",
+                "Ke pasar membeli papaya,<br>Dapatnya batu warna hitam.<br>Jangan putus asa dan tetap berusaha,<br>Kuis berikutnya nilai 100 di genggaman!",
+                "Ada domba makan rumput basah,<br>Lalu tertidur di bawah pohon.<br>Belajar matematika tidaklah susah,<br>Kalau diulangi pasti makin paham dan terhohon!",
+                "Beli baju warnanya merah,<br>Baju melar dipakai beruang.<br>Anak hebat tak boleh menyerah,<br>Nilai kecil pasti bisa dibuang!",
+                "Makan nasi lauk ikan asin,<br>Ditambah sambal nikmat sekali.<br>Mari belajar lebih rajin,<br>Rasio Land siap membimbing lagi!",
+                "Ada katak melompat ke sumur,<br>Kaget melihat bayangan sendiri.<br>Tetap tersenyum dan pantang mundur,<br>Coba kuisnya sekali lagi hari ini!",
+                "Beli es teh di warung Bu Mimin,<br>Tumpah kena celana kotor.<br>Latihan lagi kami jamin,<br>Nilai kuis kamu bakal naik seperti motor!",
+                "Pergi ke hutan mencari kayu,<br>Kayunya lapuk dimakan rayap.<br>Jangan sedih dan ulangi kuismu,<br>Siapkan diri biar makin siap!",
+                "Ada burung belajar bersiul,<br>Suaranya unik lucu sekali.<br>Belajar rasio janganlah canggung,<br>Ulangi lagi pasti jadi ahli!"
+            ]
+        };
+
+        let kuisAktif = [];
+        let indexSoal = 0;
+        let skor = 0;
+        let sudahJawab = false;
+
+        function acakArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function mulaiKuisBaru() {
+            let bankAcak = acakArray(bankSoalRasio);
+            kuisAktif = bankAcak.slice(0, 5);
+            indexSoal = 0;
+            skor = 0;
+            document.getElementById('skor-bintang').innerText = '0';
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-finished').classList.add('hidden');
+            muatSoal();
+        }
+
+        function muatSoal() {
+            sudahJawab = false;
+            const current = kuisAktif[indexSoal];
+            document.getElementById('quiz-progress').innerText = `Pertanyaan ${indexSoal + 1} dari ${kuisAktif.length}`;
+            document.getElementById('quiz-category').innerText = current.kategori;
+            document.getElementById('quiz-question').innerText = current.pertanyaan;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            current.pilihan.forEach((pil, idx) => {
+                optionsContainer.innerHTML += `
+                    <button onclick="jawabKuis(${idx})" class="option-btn p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-rose-200 dark:border-rose-900/50 hover:border-rose-500 hover:bg-rose-50 dark:hover:bg-slate-700 font-bold text-slate-700 dark:text-slate-200 text-left transition shadow-sm">${pil}</button>
+                `;
+            });
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+        }
+
+        function jawabKuis(pilihanIdx) {
+            if (sudahJawab) return;
+            sudahJawab = true;
+
+            const current = kuisAktif[indexSoal];
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden');
+
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach((btn, idx) => {
+                if (idx === current.jawaban) {
+                    btn.classList.add('bg-emerald-100', 'dark:bg-emerald-950', 'border-emerald-500', 'text-emerald-800', 'dark:text-emerald-300');
+                } else if (idx === pilihanIdx && pilihanIdx !== current.jawaban) {
+                    btn.classList.add('bg-rose-100', 'dark:bg-rose-950', 'border-rose-500', 'text-rose-800', 'dark:text-rose-300');
+                    btn.classList.add('shake');
+                }
+            });
+
+            if (pilihanIdx === current.jawaban) {
+                skor += 20;
+                document.getElementById('skor-bintang').innerText = skor;
+                feedbackEl.className = "p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 space-y-2";
+                feedbackEl.innerHTML = `
+                    <div class="flex items-center space-x-2 text-lg font-bold">
+                        <span>🎉 Yeeeay, Benar Sekali! Kamu dapat +20 Bintang ⭐</span>
+                    </div>
+                    <div class="text-xs md:text-sm font-semibold opacity-90 pt-1 border-t border-emerald-200 dark:border-emerald-900">
+                        <strong>Cara Penyelesaian:</strong> ${current.pembahasan}
+                    </div>
+                `;
+                
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                feedbackEl.className = "p-5 rounded-2xl border-2 border-rose-300 bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200 space-y-2";
+                feedbackEl.innerHTML = `
+                    <div class="flex items-center space-x-2 text-lg font-bold">
+                        <span>🙅‍♂️ No No No! Kurang tepat. Jawaban benar: <strong class="underline">${current.pilihan[current.jawaban]}</strong></span>
+                    </div>
+                    <div class="text-xs md:text-sm font-semibold opacity-90 pt-1 border-t border-rose-200 dark:border-rose-900">
+                        <strong>Cara Penyelesaian:</strong> ${current.pembahasan}
+                    </div>
+                `;
+            }
+
+            if (indexSoal < kuisAktif.length - 1) {
+                document.getElementById('btn-next-quiz').classList.remove('hidden');
+            } else {
+                setTimeout(() => {
+                    tampilkanHasilAkhir();
+                }, 2000);
+            }
+        }
+
+        function lanjutPertanyaan() {
+            indexSoal++;
+            muatSoal();
+        }
+
+        function tampilkanHasilAkhir() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-finished').classList.remove('hidden');
+            
+            // Skor kuis (5 soal x 20 poin = Nilai Max 100)
+            let nilaiAkhir = skor;
+            document.getElementById('final-nilai').innerText = nilaiAkhir;
+            document.getElementById('final-score').innerText = `⭐ ${skor}`;
+
+            // MEMILIH PANTUN ACAK BERDASARKAN HASIL NILAI
+            let kumpulanPantun = [];
+            if (nilaiAkhir >= 80) {
+                kumpulanPantun = bankPantun.tinggi;
+            } else if (nilaiAkhir >= 60) {
+                kumpulanPantun = bankPantun.sedang;
+            } else {
+                kumpulanPantun = bankPantun.rendah;
+            }
+
+            let pantunTerpilih = kumpulanPantun[Math.floor(Math.random() * kumpulanPantun.length)];
+            document.getElementById('box-pantun-lucu').innerHTML = `"${pantunTerpilih}"`;
+            
+            if (nilaiAkhir >= 80) {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.5 }
+                });
+            }
+        }
+
+        window.onload = function() {
+            mulaiKuisBaru();
+            updateLabRasioWaktu();
+            updateLabBagianTotal();
+            updateSusuJeruk();
+            updateLabSenilai();
+            hitungRasioSatuan();
+        };
+    </script>
+</body>
+</html>
